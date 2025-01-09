@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Default values
+MASTER_IP=""
+TOKEN=""
+HASH=""
+
+# Parse flags
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --master-ip)
+      MASTER_IP="$2"
+      shift 2
+      ;;
+    --token)
+      TOKEN="$2"
+      shift 2
+      ;;
+    --hash)
+      HASH="$2"
+      shift 2
+      ;;
+    *)
+      echo "Unknown option: $1"
+      echo "Usage: $0 --master-ip <MASTER_IP> --token <TOKEN> --hash <HASH>"
+      exit 1
+      ;;
+  esac
+done
+
+# Validate required arguments
+if [[ -z $MASTER_IP || -z $TOKEN || -z $HASH ]]; then
+  echo "Error: All flags --master-ip, --token, and --hash are required."
+  echo "Usage: $0 --master-ip <MASTER_IP> --token <TOKEN> --hash <HASH>"
+  exit 1
+fi
+
+# Construct and run the kubeadm join command
+COMMAND="kubeadm join ${MASTER_IP}:6443 --token ${TOKEN} --discovery-token-ca-cert-hash sha256:${HASH}"
+echo "Running command: $COMMAND"
+
+# Execute the command
+$COMMAND
