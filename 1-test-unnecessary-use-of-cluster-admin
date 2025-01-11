@@ -1,0 +1,8 @@
+# create rolebinding
+kubectl create namespace rbac-demo
+kubectl create serviceaccount unnecessary-admin -n rbac-demo
+kubectl create clusterrolebinding unnecessary-admin-binding \
+    --clusterrole=cluster-admin \
+    --serviceaccount=rbac-demo:unnecessary-admin
+
+# 

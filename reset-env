@@ -1,0 +1,2 @@
+kubectl delete clusterrolebinding unnecessary-admin-binding
+kubectl delete serviceaccount unnecessary-admin -n rbac-demo
